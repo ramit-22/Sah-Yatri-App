@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>SAH YATRI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--navy:#0b1b3a;--or:#ff7a1a;--bg:#f3f5fa;--card:#fff;--tx:#14213d;--mu:#667189;--bd:#e3e7f0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#081329;--card:#12244a;--tx:#eef1f8;--mu:#9aa8c7;--bd:#22386a}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,sans-serif;background:var(--bg);color:var(--tx)}
+button,input,select,textarea{font:inherit;color:inherit}
+.btn{background:var(--or);color:#fff;border:0;border-radius:10px;padding:9px 16px;font-weight:600;cursor:pointer}
+.btn.g{background:transparent;color:var(--tx);border:1px solid var(--bd)}.btn.r{background:#d64545}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.s{padding:6px 11px;font-size:13px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);margin-top:4px}
+label{font-size:13px;color:var(--mu);font-weight:600;display:block}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+#app{display:flex;min-height:100vh}
+nav{width:220px;background:var(--navy);color:#fff;padding:20px 12px;position:sticky;top:0;height:100vh;flex-shrink:0}
+nav h1{font-size:20px;margin:0 8px 2px}nav h1 b{color:var(--or)}nav small{display:block;margin:0 8px 18px;color:#9db0d6;font-size:11px}
+nav a{display:flex;justify-content:space-between;padding:10px 12px;border-radius:10px;color:#cfd8ef;cursor:pointer;margin-bottom:2px}
+nav a.on,nav a:hover{background:#1a2f5c;color:#fff}nav a i{background:var(--or);border-radius:9px;padding:0 7px;font-style:normal;font-size:12px}
+main{flex:1;padding:24px;min-width:0;max-width:1100px}
+h2{margin:0 0 4px}.mu{color:var(--mu);font-size:14px}
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;background:#e6f6ec;color:#17803d}
+.Almost{background:#fff1dc;color:#b45f06}.Full,.Cancelled{background:#fde5e5;color:#b42323}.Confirmed{background:#e0ecff;color:#1d4fb8}.Completed{background:#eceef3;color:#555}
+.stat{font-size:28px;font-weight:800;color:var(--or)}
+.ride h3{margin:8px 0 2px}.ride p{margin:3px 0;font-size:14px;color:var(--mu)}.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:12px;display:none;z-index:9;border-left:4px solid var(--or)}
+.auth{max-width:400px;margin:6vh auto;padding:16px}.auth .hero{background:var(--navy);color:#fff;border-radius:16px;padding:22px;margin-bottom:14px;text-align:center}
+.hero b{color:var(--or)}.nt{border-left:3px solid var(--bd);padding:10px 12px;margin-bottom:8px}.nt.u{border-color:var(--or)}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px;border-bottom:1px solid var(--bd);text-align:left}.ov{overflow-x:auto}
+@media(max-width:760px){#app{display:block}nav{position:fixed;bottom:0;top:auto;width:100%;height:auto;display:flex;overflow-x:auto;padding:6px;z-index:5}nav h1,nav small{display:none}nav a{white-space:nowrap;margin:0;padding:8px 10px;gap:6px}main{padding:16px 14px 90px}}
+</style></head><body>
+<div id="root"></div><div id="toast"></div>
+<script>
+const K='sahyatri1',$=s=>document.querySelector(s);
+const day=n=>{const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function seed(){return{u:[
+{id:1,name:'Demo Student',email:'demo@college.edu',phone:'9876500001',pw:'demo123',role:'student',on:1},
+{id:2,name:'Admin',email:'admin@college.edu',phone:'9876500000',pw:'admin123',role:'admin',on:1},
+{id:3,name:'Aarav Sharma',email:'aarav@college.edu',phone:'9876500003',pw:'pass123',role:'student',on:1},
+{id:4,name:'Meera Singh',email:'meera@college.edu',phone:'9876500004',pw:'pass123',role:'student',on:1}],
+r:[{id:1,by:3,dest:'Railway Station',from:'Main Gate',date:day(0),time:'17:30',seats:3,cost:60,veh:'Auto',note:'Leaving on time',st:''},
+{id:2,by:4,dest:'City Mall',from:'Hostel Block A',date:day(1),time:'11:00',seats:4,cost:45,veh:'Cab',note:'',st:''},
+{id:3,by:3,dest:'Airport',from:'Library',date:day(1),time:'05:30',seats:2,cost:250,veh:'Cab',note:'Early flight',st:''}],
+b:[{id:1,ride:3,user:4,n:1}],n:[],id:10}}
+let S;try{S=JSON.parse(localStorage.getItem(K))}catch(e){}S=S||seed();
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+let me=null,view='dash',edit=null,F={dest:'',date:'',time:'',pick:'',pax:1,veh:''};
+try{me=S.u.find(u=>u.id==sessionStorage.getItem('sy_me'))||null}catch(e){}
+const left=r=>r.seats-S.b.filter(b=>b.ride==r.id).reduce((a,b)=>a+b.n,0);
+const stat=r=>{if(r.st=='Cancelled'||r.st=='Completed')return r.st;const l=left(r);return l<=0?'Full':r.st=='Confirmed'?'Confirmed':l<=1?'Almost Full':'Open'};
+const user=id=>S.u.find(u=>u.id==id)||{name:'?'};
+const notify=(uid,m)=>{S.n.unshift({id:S.id++,u:uid,m,t:Date.now(),read:0})};
+const toast=(m)=>{const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(t.h);t.h=setTimeout(()=>t.style.display='none',2600)};
+const paxOf=r=>S.b.filter(b=>b.ride==r.id);
+function card(r){const s=stat(r),l=left(r),mine=r.by==me.id,bk=S.b.find(b=>b.ride==r.id&&b.user==me.id),sc=s.split(' ')[0];
+let a='';if(mine&&!['Cancelled','Completed'].includes(s)){a=`<button class="btn s g" data-a="edit" data-id="${r.id}">Edit</button>${r.st!='Confirmed'?`<button class="btn s" data-a="conf" data-id="${r.id}">Confirm</button>`:''}<button class="btn s g" data-a="done" data-id="${r.id}">Complete</button><button class="btn s r" data-a="cancel" data-id="${r.id}">Cancel</button>`}
+else if(bk&&!['Cancelled','Completed'].includes(s))a=`<button class="btn s g" data-a="leave" data-id="${r.id}">Leave ride</button>`;
+else if(!mine)a=`<button class="btn s" data-a="join" data-id="${r.id}" ${l<F.pax||['Cancelled','Completed','Full'].includes(s)?'disabled':''}>${bk?'Joined':s=='Full'?'Full':'Join ride'}</button>`;
+const ps=mine?`<p>Passengers: ${paxOf(r).map(b=>esc(user(b.user).name)+(b.n>1?' ×'+b.n:'')).join(', ')||'none yet'}</p>`:'';
+return`<div class="card ride"><span class="tag ${sc}">${s}</span> <span class="mu">🚗 ${r.veh}</span><h3>To ${esc(r.dest)}</h3><p>👤 ${esc(user(r.by).name)} · 📍 ${esc(r.from)}</p><p>🗓 ${r.date} at ${r.time}</p><p><b style="color:var(--tx)">₹${r.cost}</b>/person · ${l} of ${r.seats} seats left</p>${r.note?`<p>“${esc(r.note)}”</p>`:''}${ps}<div class="acts">${a}</div></div>`}
+const empty=t=>`<div class="card mu" style="text-align:center;padding:36px">🚏 ${t}</div>`;
+const open=r=>!['Cancelled','Completed'].includes(r.st);
+function match(r){const f=F;return open(r)&&r.by!=me.id&&(!f.dest||r.dest.toLowerCase().includes(f.dest.toLowerCase()))&&(!f.date||r.date==f.date)&&(!f.time||r.time>=f.time)&&(!f.pick||r.from.toLowerCase().includes(f.pick.toLowerCase()))&&(!f.veh||r.veh==f.veh)&&left(r)>=f.pax}
+const dests=['Railway Station','Metro Station','Bus Stand','Airport','City Mall','Market','Hospital','Cinema'];
+const V={
+dash(){const t=day(0),av=S.r.filter(r=>open(r)&&left(r)>0),jn=S.b.filter(b=>b.user==me.id).map(b=>S.r.find(r=>r.id==b.ride)).filter(r=>r&&open(r)),cr=S.r.filter(r=>r.by==me.id&&open(r));
+return`<h2>Welcome, ${esc(me.name.split(' ')[0])} 👋</h2><p class="mu">Your Campus. Your Ride. Your Saathi.</p><div class="row" style="margin:16px 0"><div class="card"><div class="stat">${av.length}</div>Available rides</div><div class="card"><div class="stat">${S.r.filter(r=>r.date==t&&open(r)).length}</div>Travelling today</div><div class="card"><div class="stat">${jn.length+cr.length}</div>My active rides</div></div>
+<div class="acts" style="margin-bottom:16px"><button class="btn" data-a="go" data-id="find">Find a ride</button><button class="btn g" data-a="go" data-id="create">Create a ride</button></div><h3>Rides leaving soon</h3><div class="grid">${av.filter(r=>r.by!=me.id).slice(0,4).map(card).join('')||empty('No rides yet')}</div>`},
+find(){const rs=S.r.filter(match).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+return`<h2>Find a ride</h2><div class="card" style="margin:14px 0"><div class="row"><div><label>Destination</label><input id="f_dest" list="dl" value="${esc(F.dest)}" placeholder="e.g. Airport"></div><div><label>Date</label><input id="f_date" type="date" value="${F.date}"></div><div><label>Leaving after</label><input id="f_time" type="time" value="${F.time}"></div><div><label>Pickup point</label><input id="f_pick" value="${esc(F.pick)}"></div><div><label>Passengers</label><input id="f_pax" type="number" min="1" max="6" value="${F.pax}"></div><div><label>Vehicle</label><select id="f_veh"><option value="">Any</option>${['Auto','Cab','Personal Vehicle'].map(v=>`<option ${F.veh==v?'selected':''}>${v}</option>`).join('')}</select></div></div><div class="acts">${dests.map(d=>`<button class="btn s g" data-a="dest" data-id="${d}">${d}</button>`).join('')}</div></div><datalist id="dl">${dests.map(d=>`<option>${d}</option>`).join('')}</datalist><div class="grid" id="res">${rs.map(card).join('')||empty('No matching rides. Try changing filters or create one!')}</div>`},
+create(){const r=edit?S.r.find(x=>x.id==edit):{};return`<h2>${edit?'Edit ride':'Create a ride'}</h2><form id="cf" class="card" style="margin-top:14px"><div class="row"><div><label>Destination</label><input name="dest" list="dl" required value="${esc(r.dest)}"></div><div><label>Starting point</label><input name="from" required value="${esc(r.from)}"></div><div><label>Date</label><input name="date" type="date" required min="${day(0)}" value="${r.date||''}"></div><div><label>Departure time</label><input name="time" type="time" required value="${r.time||''}"></div><div><label>Seats available</label><input name="seats" type="number" min="1" max="8" required value="${r.seats||''}"></div><div><label>Cost per person (₹)</label><input name="cost" type="number" min="0" required value="${r.cost??''}"></div><div><label>Vehicle</label><select name="veh">${['Auto','Cab','Personal Vehicle'].map(v=>`<option ${r.veh==v?'selected':''}>${v}</option>`).join('')}</select></div></div><datalist id="dl">${dests.map(d=>`<option>${d}</option>`).join('')}</datalist><label style="margin-top:12px">Notes</label><textarea name="note" rows="2">${esc(r.note)}</textarea><div class="acts"><button class="btn">${edit?'Save changes':'Publish ride'}</button>${edit?'<button type="button" class="btn g" data-a="go" data-id="my">Back</button>':''}</div></form>`},
+my(){const cr=S.r.filter(r=>r.by==me.id),jn=S.b.filter(b=>b.user==me.id).map(b=>S.r.find(r=>r.id==b.ride)).filter(Boolean);
+return`<h2>My rides</h2><h3>Rides created</h3><div class="grid">${cr.map(card).join('')||empty('You haven’t created any rides')}</div><h3 style="margin-top:22px">Rides joined</h3><div class="grid">${jn.map(card).join('')||empty('You haven’t joined any rides')}</div>`},
+notif(){const ns=S.n.filter(n=>n.u==me.id);return`<h2>Notifications</h2><div class="acts" style="margin:10px 0"><button class="btn s g" data-a="readall">Mark all read</button></div>${ns.map(n=>`<div class="card nt ${n.read?'':'u'}">${esc(n.m)}<div class="mu" style="font-size:12px">${new Date(n.t).toLocaleString()}</div></div>`).join('')||empty('No notifications yet')}`},
+profile(){return`<h2>Profile</h2><form id="pf" class="card" style="margin-top:14px;max-width:460px"><p><span class="tag">${me.email.match(/\.(edu|ac\.in)$/)?'✓ College email verified':'Unverified'}</span></p><label>Name</label><input name="name" required value="${esc(me.name)}"><label style="margin-top:10px">Email</label><input value="${esc(me.email)}" disabled><label style="margin-top:10px">Phone</label><input name="phone" required pattern="[0-9]{10}" title="10 digits" value="${esc(me.phone)}"><div class="acts"><button class="btn">Save profile</button></div></form>`},
+admin(){const act=S.r.filter(r=>open(r)&&left(r)>0).length;return`<h2>Admin dashboard</h2><div class="row" style="margin:14px 0"><div class="card"><div class="stat">${S.u.filter(u=>u.role!='admin').length}</div>Students</div><div class="card"><div class="stat">${S.r.length}</div>Rides created</div><div class="card"><div class="stat">${act}</div>Active rides</div><div class="card"><div class="stat">${S.r.filter(r=>r.st=='Cancelled').length}</div>Cancelled</div></div><div class="card ov"><h3>Users</h3><table><tr><th>Name</th><th>Email</th><th>Rides</th><th></th></tr>${S.u.filter(u=>u.role!='admin').map(u=>`<tr><td>${esc(u.name)}</td><td>${esc(u.email)}</td><td>${S.r.filter(r=>r.by==u.id).length}</td><td><button class="btn s ${u.on?'r':''}" data-a="tog" data-id="${u.id}">${u.on?'Deactivate':'Activate'}</button></td></tr>`).join('')}</table></div><div class="card ov" style="margin-top:14px"><h3>Ride activity</h3><table><tr><th>Ride</th><th>By</th><th>When</th><th>Status</th></tr>${S.r.map(r=>`<tr><td>${esc(r.from)} → ${esc(r.dest)}</td><td>${esc(user(r.by).name)}</td><td>${r.date} ${r.time}</td><td>${stat(r)}</td></tr>`).join('')}</table></div>`}};
+function authView(reg){return`<div class="auth"><div class="hero"><h1 style="margin:0">SAH <b>YATRI</b></h1><div style="color:#b9c6e6">Your Campus. Your Ride. Your Saathi.</div></div><form id="af" class="card">${reg?`<label>Full name</label><input name="name" required><label style="margin-top:10px">Phone</label><input name="phone" required pattern="[0-9]{10}" title="10 digits">`:''}<label style="margin-top:10px">College email</label><input name="email" type="email" required placeholder="you@college.edu"><label style="margin-top:10px">Password</label><input name="pw" type="password" required minlength="6"><div class="acts"><button class="btn" style="flex:1">${reg?'Register':'Login'}</button></div><p class="mu" style="text-align:center"><a href="#" data-a="sw" style="color:var(--or)">${reg?'Have an account? Login':'New here? Register'}</a>${reg?'':' · <a href="#" data-a="demo" style="color:var(--or)">Use demo login</a>'}</p></form></div>`}
+let regMode=false;
+function render(){const root=$('#root');if(!me){root.innerHTML=authView(regMode);return}
+const un=S.n.filter(n=>n.u==me.id&&!n.read).length,items=[['dash','🏠 Home'],['find','🔍 Find'],['create','➕ Create'],['my','🧳 My rides'],['notif','🔔 Alerts',un],['profile','👤 Profile']];if(me.role=='admin')items.push(['admin','🛡 Admin']);
+root.innerHTML=`<div id="app"><nav><h1>SAH <b>YATRI</b></h1><small>Your Campus. Your Ride.</small>${items.map(i=>`<a class="${view==i[0]?'on':''}" data-a="go" data-id="${i[0]}">${i[1]}${i[2]?`<i>${i[2]}</i>`:''}</a>`).join('')}<a data-a="out">🚪 Logout</a></nav><main>${V[view]()}</main></div>`}
+function ref(){if(view=='find'){const el=$('#res');if(el)el.innerHTML=S.r.filter(match).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).map(card).join('')||empty('No matching rides. Try changing filters or create one!')}else render()}
+document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el)return;e.preventDefault();const a=el.dataset.a,id=+el.dataset.id||el.dataset.id,r=S.r.find(x=>x.id==id);
+if(a=='go'){view=id;edit=null;render()}
+else if(a=='sw'){regMode=!regMode;render()}
+else if(a=='demo'){me=S.u[0];sess();render()}
+else if(a=='out'){me=null;try{sessionStorage.removeItem('sy_me')}catch(x){}render()}
+else if(a=='dest'){F.dest=id;render()}
+else if(a=='join'){if(S.b.find(b=>b.ride==id&&b.user==me.id))return toast('You already joined this ride');if(left(r)<F.pax||stat(r)=='Full')return toast('Not enough seats left');S.b.push({id:S.id++,ride:id,user:me.id,n:F.pax});notify(r.by,`${me.name} joined your ride to ${r.dest}.`);if(left(r)<=0)notify(r.by,`Your ride to ${r.dest} is now full.`);save();toast('Ride joined!');ref()}
+else if(a=='leave'){S.b=S.b.filter(b=>!(b.ride==id&&b.user==me.id));notify(r.by,`${me.name} left your ride to ${r.dest}.`);save();toast('You left the ride');render()}
+else if(a=='cancel'){if(!confirm('Cancel this ride?'))return;r.st='Cancelled';paxOf(r).forEach(b=>notify(b.user,`Ride to ${r.dest} on ${r.date} was cancelled.`));save();toast('Ride cancelled');render()}
+else if(a=='conf'){r.st='Confirmed';paxOf(r).forEach(b=>notify(b.user,`Ride to ${r.dest} is confirmed!`));save();toast('Ride confirmed');render()}
+else if(a=='done'){r.st='Completed';save();toast('Marked completed');render()}
+else if(a=='edit'){edit=id;view='create';render()}
+else if(a=='readall'){S.n.forEach(n=>{if(n.u==me.id)n.read=1});save();render()}
+else if(a=='tog'){const u=user(id);u.on=u.on?0:1;save();toast(u.on?'Account activated':'Account deactivated');render()}});
+document.addEventListener('input',e=>{const m=e.target.id&&e.target.id.match(/^f_(.+)$/);if(m){F[m[1]]=m[1]=='pax'?Math.max(1,+e.target.value||1):e.target.value;ref()}});
+document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=Object.fromEntries(new FormData(f));
+if(f.id=='af'){d.email=d.email.trim().toLowerCase();if(regMode){if(!/@[^@]+\.(edu|ac\.in|edu\.in)$/.test(d.email))return toast('Use your college email (.edu / .ac.in)');if(S.u.find(u=>u.email==d.email))return toast('Email already registered');me={id:S.id++,name:d.name.trim(),email:d.email,phone:d.phone,pw:d.pw,role:'student',on:1};S.u.push(me);save();toast('Welcome aboard!')}
+else{const u=S.u.find(u=>u.email==d.email&&u.pw==d.pw);if(!u)return toast('Wrong email or password');if(!u.on)return toast('Account deactivated. Contact admin.');me=u}sess();view='dash';render()}
+else if(f.id=='cf'){const o={dest:d.dest.trim(),from:d.from.trim(),date:d.date,time:d.time,seats:+d.seats,cost:+d.cost,veh:d.veh,note:d.note.trim()};
+if(edit){const r=S.r.find(x=>x.id==edit);if(o.seats<r.seats-left(r))return toast('Seats can’t be fewer than booked');const ch=r.time!=o.time||r.date!=o.date;Object.assign(r,o);if(ch)paxOf(r).forEach(b=>notify(b.user,`Ride to ${r.dest} now departs ${r.date} at ${r.time}.`));toast('Ride updated');edit=null}
+else{S.r.push({id:S.id++,by:me.id,st:'',...o});toast('Ride published!')}save();view='my';render()}
+else if(f.id=='pf'){me.name=d.name.trim();me.phone=d.phone;save();toast('Profile saved');render()}});
+function sess(){try{sessionStorage.setItem('sy_me',me.id)}catch(e){}}
+window.addEventListener('storage',e=>{if(e.key==K){try{S=JSON.parse(e.newValue);if(me)me=S.u.find(u=>u.id==me.id);if(me&&!me.on)me=null;ref()}catch(x){}}});
+render();
+</script></body></html>
